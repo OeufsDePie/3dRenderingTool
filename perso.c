@@ -176,7 +176,6 @@ void init_perso(struct perso*p,
 		   x, y, z,
 		   1, 0, 0,
 		   0, 0, 1);
-
 	p->r=255;
 	p->g=100;
 	p->b=25;
@@ -498,7 +497,7 @@ void deplacer_perso_global(struct perso*p, float dx, float dy, float dz){
 	switch(p->type){
 	case PIETON:
 		/* En mode piéton, la caméra conserve la même orientation. */
-		deplacer_cam_global(p->la_cam, dx, dy, dz);		
+		deplacer_cam_global(p->la_cam, dx, dy, dz);
 		break;
 	case VEHICULE:
 		/* En mode véhicule, la caméra se déplace en direction de l'ancienne position du perso puis se tourne pour s'aligner sur lui. */
@@ -698,7 +697,7 @@ void deplacer_perso_selon_vitesse_globale(struct perso*p, float dt){
 		     p->vitesse.y*dt,
 		     p->vitesse.z*dt);
 	deplacer_perso_global(p, deplacement.x, deplacement.y, deplacement.z);
-	deplacer_cam_global(p->la_cam, deplacement.x, deplacement.y, deplacement.z);
+	/* deplacer_cam_global(p->la_cam, deplacement.x, deplacement.y, deplacement.z); */
 }
 
 
