@@ -184,12 +184,10 @@ void init_perso(struct perso*p,
 	afficher_empty(&(p->empty));
 	
 	
+	/* Si le fichier "perso.mesh" est fourni, on l'ouvre et on charge son contenu. */
 	f=fopen("perso.mesh", "r");
 	if(f!=NULL){
 		charger_maillage(p, f);
-	}
-	else{
-		printf("erreur chargement perso.\n");
 	}
 	init_vecteur(&(p->vitesse), 0, 0, 0);
 	p->vitesse_de_saut=vitesse_saut;
@@ -257,7 +255,7 @@ void afficher_perso(struct perso*p, struct camera c){
 	transparence=0;
 
 	
-	glColor4ub(255, 255, 255, transparence);
+	glColor4ub(255, 0, 0, transparence);
 	glBegin(GL_QUADS);{
 		
 		glVertex3d(p->empty.pos.x + fact_x*c.empty.gauche.x,
@@ -639,7 +637,6 @@ void convertir_vitesse_globale_vers_locale(struct perso*p, struct vecteur*vitess
 
 /* La cible de la caméra devra toujours être le personnage. */
 void attacher_cam_a_perso(struct perso*p, struct camera*c, float distance){
-	printf("attacher_cam_a_perso\n");
 	/* Chacun connaît l'autre. */
 	p->la_cam=c;
 	c->le_perso=p;

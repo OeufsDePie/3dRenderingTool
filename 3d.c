@@ -255,7 +255,6 @@ void lire_input(int**tab_appuis){
 			break;
 
 		case SDL_KEYUP:
-			printf("keyup\n");
 			/* GESTION DES RELÂCHEMENTS DES TOUCHES. */
 			(*tab_appuis)[e.key.keysym.sym]=0;
 			/* FIN DE LA GESTION DES RELÂCHEMENTS DES TOUCHES. */

@@ -97,7 +97,6 @@ void init_terrain(struct terrain*t, int longueur, int largeur, int hauteur, floa
 	
 	/* Lecture du fichier. */
 	char*nom_fichier="Resources/Castle_FinalColorized.ply";
-	//char*nom_fichier="Villa_FinalColorized.ply";
 	FILE*fichier=fopen(nom_fichier, "r");
 	char ligne[100];
 	char*mot;
@@ -116,7 +115,6 @@ void init_terrain(struct terrain*t, int longueur, int largeur, int hauteur, floa
 	do{
 		fgets(ligne, 100, fichier);
 		ligne[strlen(ligne)-1]='\0'; /* On remplace le '\n' fixé par fgets. */
-		printf("ligne%d=<%s>\n", i, ligne);
 		mot=strtok(ligne, " ");
 		/* Si cette ligne contient le nombre de points du maillage... */
 		if(strcmp(mot, "element")==0){
@@ -139,7 +137,6 @@ void init_terrain(struct terrain*t, int longueur, int largeur, int hauteur, floa
 	while(i<t->nb_points && ligne!=NULL){
 		fgets(ligne, 100, fichier);
 		ligne[strlen(ligne)-1]='\0';
-		printf("i=%d, ligne=%s\n", i, ligne);
 		
 		if(ligne!=NULL){
 			le_cube=get_cube(t, i);
