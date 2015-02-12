@@ -176,6 +176,7 @@ void init_perso(struct perso*p,
 		   x, y, z,
 		   1, 0, 0,
 		   0, 0, 1);
+
 	p->r=255;
 	p->g=100;
 	p->b=25;
@@ -187,7 +188,11 @@ void init_perso(struct perso*p,
 	/* Si le fichier "perso.mesh" est fourni, on l'ouvre et on charge son contenu. */
 	f=fopen("perso.mesh", "r");
 	if(f!=NULL){
+		printf("charger_maillage perso\n");
 		charger_maillage(p, f);
+	}
+	else{
+		p->tab_points=NULL;
 	}
 	init_vecteur(&(p->vitesse), 0, 0, 0);
 	p->vitesse_de_saut=vitesse_saut;
@@ -477,11 +482,14 @@ void deplacer_perso_global(struct perso*p, float dx, float dy, float dz){
 	  z=p->empty.pos.z;
 	*/
 	deplacer_empty_global(&(p->empty), dx, dy, dz);
-	for(i=0; i<p->nb_points; i++){
-		/* Déplacer le i-ème sommet. */
-		p->tab_points[i].x=p->tab_points[i].x + dx;
-		p->tab_points[i].y=p->tab_points[i].y + dy;
-		p->tab_points[i].z=p->tab_points[i].z + dz;
+	if(p->tab_points!=NULL){
+		/* On ne déplace les points du maillage que si ledit maillage existe. */
+		for(i=0; i<p->nb_points; i++){
+			/* Déplacer le i-ème sommet. */
+			p->tab_points[i].x=p->tab_points[i].x + dx;
+		       	p->tab_points[i].y=p->tab_points[i].y + dy;
+			p->tab_points[i].z=p->tab_points[i].z + dz;
+		}
 	}
 	
 	
@@ -529,11 +537,13 @@ void tourner_perso_z(struct perso*p, float angle){
 	float y=p->empty.pos.y;
 	float z=p->empty.pos.z;
 	deplacer_perso_global(p, -x, -y, -z);
-			      
+	
 	/* 2) On fait tourner le perso autour de l'axe Z. */
 	tourner_empty_z(&(p->empty), angle);
-	for(i=0; i<p->nb_points; i++){
-		rotation_vecteur(&(p->tab_points[i]), 0, 0, angle);
+	if(p->tab_points!=NULL){
+		for(i=0; i<p->nb_points; i++){
+			rotation_vecteur(&(p->tab_points[i]), 0, 0, angle);
+		}
 	}
 	
 	/* 3) On replace le perso à sa position initiale. */
@@ -637,17 +647,16 @@ void convertir_vitesse_globale_vers_locale(struct perso*p, struct vecteur*vitess
 
 /* La cible de la caméra devra toujours être le personnage. */
 void attacher_cam_a_perso(struct perso*p, struct camera*c, float distance){
+	
 	/* Chacun connaît l'autre. */
 	p->la_cam=c;
 	c->le_perso=p;
-	
 	
 	/* On positionne la caméra derrière le perso. */
 	init_vecteur(&(c->empty.pos),
 		     p->empty.pos.x - distance,
 		     p->empty.pos.y,
 		     p->empty.pos.z);
-	
 	/* On fait pointer la cam vers le perso, et on règle donc les trois vecteurs de l'empty de la cam. */
 	init_vecteur(&(c->empty.cible),
 		     p->empty.pos.x - c->empty.pos.x,

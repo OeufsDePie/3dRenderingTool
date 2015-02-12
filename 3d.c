@@ -101,15 +101,16 @@ int main(int argc, char*argv[]){
 		   angle_rotation, distance_deplacement,
 		   vitesse_de_saut, vitesse_de_mvt);
 	init_terrain(&le_terrain, longueur, largeur, hauteur, taille_cubes, restit_vertic, restit_horiz, &mode);
-	
 	get_centre_terrain(&le_terrain, &x_centre, &y_centre, &z_centre);
 	
 	/* Lier le perso et la caméra, pour que chacun connaisse l'autre;
 	   positionner la caméra derrière le perso. */
 	la_cam.distance_a_perso=distance_a_perso_std;
+	printf("toto_0\n");
 	attacher_cam_a_perso(&le_perso, &la_cam, la_cam.distance_a_perso);
+	printf("toto_1\n");
 	
-	
+
 	/* Les constantes suivantes ont des valeurs qui vont de SDLK_LAST à SDLK_LAST+5;
 	   elles sont définies dans le fichier "includes.c".
 	   DX_SOURIS
