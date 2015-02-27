@@ -33,16 +33,13 @@ class PyRenderer(object):
         FNULL = open(os.devnull, 'w') # for silencing stdout
         sub = subprocess.Popen(command, stdout=FNULL)
         # Wait for interruption or completion
-        print(sub.poll())
         while True:
             with self._stop_lock:
                 result = sub.poll()
                 if result:
-                    print("Prog terminated")
                     self._stop_flag = False
                     return result
                 if self._stop_flag:
-                    print("Stop flag detected")
                     self._stop_flag = False
                     sub.terminate()
                     return result
@@ -54,14 +51,16 @@ class PyRenderer(object):
         '''
         if (self._thread.is_alive()):
             with self._stop_lock:
-                print("Stop flag set")
                 self._stop_flag = True
 
 if __name__ == '__main__':
     pyrenderer = PyRenderer()
-    pyrenderer.open_renderer('')
+    print('Starting rendering...')
+    pyrenderer.open_renderer('Resources/Castle_FinalColorized.ply')
     time.sleep(2)
+    print('Stop rendering')
     pyrenderer.stop_renderer()
     time.sleep(2)
-    pyrenderer.open_renderer('')
+    print('Starting rendering again...')
+    pyrenderer.open_renderer('Resources/Castle_FinalColorized.ply')
     input("Appuyer sur Entrée pour terminer")
