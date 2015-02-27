@@ -86,18 +86,21 @@ void init_gravite_terrain(struct terrain*t, float gx, float gy, float gz){
 
 
 
-/* La variable énumérée mode permet de savoir si on est en MODE_JEU, ou en MODE_MENU, ou dans d'autres modes.
+/* L'argument fichier_ply contient le chemin vers le nom de fichier nuage de point
+   La variable énumérée mode permet de savoir si on est en MODE_JEU, ou en MODE_MENU, ou dans d'autres modes.
    Les paramètres longueur, largeur, hauteur désignent le nombres de cubes
    dans chaque direction (x, y et z).
    Le paramètre taille_elem désigne la longueur des arêtes des cubes.
  */
-void init_terrain(struct terrain*t, int longueur, int largeur, int hauteur, float taille_elem, float restit_vertic, float restit_horiz, enum mode*mode){
+void init_terrain(struct terrain*t, const char* fichier_ply,
+                  int longueur, int largeur, int hauteur,
+                  float taille_elem, float restit_vertic, float restit_horiz,
+                  enum mode*mode){
 	
 	int i;
 	
 	/* Lecture du fichier. */
-	char*nom_fichier="Resources/Castle_FinalColorized.ply";
-	FILE*fichier=fopen(nom_fichier, "r");
+	FILE*fichier=fopen(fichier_ply, "r");
 	char ligne[100];
 	char*mot;
 	struct cube*le_cube;
@@ -107,7 +110,7 @@ void init_terrain(struct terrain*t, int longueur, int largeur, int hauteur, floa
 	int r_c, g_c, b_c;
 	float taille=0.2;
 	
-	printf("Choix du fichier: terrain.c; on ouvre <%s>\n", nom_fichier);
+	printf("Choix du fichier: terrain.c; on ouvre <%s>\n", fichier_ply);
 	
 	
 	/* Lecture de l'en-tête. */

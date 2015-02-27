@@ -1,14 +1,10 @@
 #include"includes.c"
 
-
 void lire_input(int**tab_appuis);
 void deplacer_perso(struct perso*p, int*tab_appuis, float dt);
 void rendu(struct terrain*le_terrain, struct camera*la_cam, struct perso*le_perso);
 void evoluer_terrain();
 void collisions_perso_terrain();
-
-
-
 
 int main(int argc, char*argv[]){
 	
@@ -69,6 +65,16 @@ int main(int argc, char*argv[]){
 	SDL_Surface*surface_pour_taille_ecran;
 	
 	
+        char* fichier_ply = "";
+        /* Read the arguments */
+        if(argc != 2) {
+          /* Error */
+          fprintf(stderr, "Usage : %s fichier.ply\n", argv[0]);
+          return 1;
+        } else {
+          fichier_ply = argv[1];
+        }
+        
 	
 	/* Début init globale. */
 	
@@ -100,7 +106,7 @@ int main(int argc, char*argv[]){
 		   x_perso_init, y_perso_init, z_perso_init,
 		   angle_rotation, distance_deplacement,
 		   vitesse_de_saut, vitesse_de_mvt);
-	init_terrain(&le_terrain, longueur, largeur, hauteur, taille_cubes, restit_vertic, restit_horiz, &mode);
+	init_terrain(&le_terrain, fichier_ply, longueur, largeur, hauteur, taille_cubes, restit_vertic, restit_horiz, &mode);
 	get_centre_terrain(&le_terrain, &x_centre, &y_centre, &z_centre);
 	
 	/* Lier le perso et la caméra, pour que chacun connaisse l'autre;
