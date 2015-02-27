@@ -7,11 +7,12 @@ import os
 class PyRenderer(object):
     '''Allows to launch the 3D renderer from the command line
 
+    Arguments:
+    exec_path   The path to the renderer executable
     '''
 
-    EXEC = './renderer'
-
-    def __init__(self):
+    def __init__(self, exec_path):
+        self.exec_path = exec_path
         self._thread = None
         self._stop_lock = threading.Lock()
         self._stop_flag = False
@@ -27,7 +28,7 @@ class PyRenderer(object):
         self._thread.start()
         
     def _call_renderer(self, ply_file):
-        command = [PyRenderer.EXEC,
+        command = [self.exec_path,
                    ply_file]
         # Create subprocess
         FNULL = open(os.devnull, 'w') # for silencing stdout
@@ -54,12 +55,12 @@ class PyRenderer(object):
                 self._stop_flag = True
 
 if __name__ == '__main__':
-    pyrenderer = PyRenderer()
+    pyrenderer = PyRenderer('./renderer')
     print('Starting rendering...')
     pyrenderer.open_renderer('Resources/Castle_FinalColorized.ply')
     time.sleep(2)
     print('Stop rendering')
-    pyrenderer.stop_renderer()
+    pyrenderer.stop_renderer('./renderer')
     time.sleep(2)
     print('Starting rendering again...')
     pyrenderer.open_renderer('Resources/Castle_FinalColorized.ply')
