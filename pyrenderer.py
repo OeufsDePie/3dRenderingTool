@@ -60,7 +60,7 @@ if __name__ == '__main__':
     pyrenderer.open_renderer('Resources/Castle_FinalColorized.ply')
     time.sleep(2)
     print('Stop rendering')
-    pyrenderer.stop_renderer('./renderer')
+    pyrenderer.stop_renderer()
     time.sleep(2)
     print('Starting rendering again...')
     pyrenderer.open_renderer('Resources/Castle_FinalColorized.ply')
