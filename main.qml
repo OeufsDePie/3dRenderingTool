@@ -19,15 +19,4 @@ Item {
         anchors.fill: label
         anchors.margins: -10
     }
-
-    Text {
-        id: label
-        color: "black"
-        wrapMode: Text.WordWrap
-        text: "This is a point cloud renderer using openGL under QML, which is nice"
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.margins: 20
-    }
 }

@@ -1,5 +1,6 @@
 #include "PointCloud.h"
 #include <QtQuick/qquickwindow.h>
+#include <QQmlExtensionPlugin>
 
 /////////////////////////// PointCloud implementation ///////////////////////////
 PointCloud::PointCloud() : renderer(0),pathPly(QString())
@@ -45,3 +46,16 @@ void PointCloud::sync()
     renderer->setpathPly(pathPly);
 }
 
+class PointCloudPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+//    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+public:
+    void registerTypes(const char *uri)
+    {
+        Q_ASSERT(uri == QLatin1String("PointCloudPlugin"));
+        qmlRegisterType<PointCloud>(uri, 1, 0, "PointCloud");
+    }
+};
+
+#include "PointCloud.moc"
