@@ -8,7 +8,7 @@ Item {
 
     PointCloud {
         id: pc
-//        pathPly: "./ply/castle.ply"
+        pathPly: "./ply/castle.ply"
     }
 
     Rectangle {
