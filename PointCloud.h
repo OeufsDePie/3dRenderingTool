@@ -1,5 +1,6 @@
 #include "PointCloudRenderer.h"
 #include <QtQuick/QQuickItem>
+
 /* The PointCloud object must extend QQuickItem so that we can easily access the QQuickItem.window() function.
 */
 class PointCloud : public QQuickItem
