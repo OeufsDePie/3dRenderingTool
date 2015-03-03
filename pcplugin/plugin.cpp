@@ -1,4 +1,4 @@
-#include "PointCloud.h"
+#include "../PointCloud.h"
 #include <QQmlExtensionPlugin>
 
 class QExampleQmlPlugin : public QQmlExtensionPlugin

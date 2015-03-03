@@ -2,6 +2,6 @@ TEMPLATE = lib
 CONFIG += qt plugin
 QT += qml
 
-DESTDIR = pcplugin/
+DESTDIR = import/
 TARGET = pcplugin
 SOURCES += plugin.cpp
