@@ -27,6 +27,7 @@ public slots:
 private:
     bool initBuffers();
     bool readPLY(const std::string& filePath, GLfloat*& buffer, GLfloat*& colorbuffer);
+    void readCameraCoordinates();
 private:
     bool isinitBuffers;
     QString pathPly;
@@ -37,4 +38,7 @@ private:
     QOpenGLBuffer *colorBuffer;
     QOpenGLShaderProgram *shaderProgram;
     size_t _dataSize;
+    glm::vec3* cameraCoordinates;
+    int currentCam;
+    int numberCameras;
 };
