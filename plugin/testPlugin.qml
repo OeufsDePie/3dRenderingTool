@@ -1,8 +1,8 @@
 import PointCloudPlugin 1.0
 
-PointCloudWrapper {
+PointCloudWrapper{
     PointCloud {
-            id: pointcloud
-            pathPly: "ply/castle.ply"
-     }
+        id: pointcloud
+       pathPly: "../ply/castle.ply"
+    }
 }
