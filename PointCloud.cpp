@@ -1,6 +1,6 @@
-#include <QtQuick/qquickwindow.h>
-#include "PointCloud.h"
+#include <QQuickWindow>
 #include <QQmlExtensionPlugin>
+#include "PointCloud.h"
 
 /////////////////////////// PointCloud implementation ///////////////////////////
 PointCloud::PointCloud() : renderer(0),pathPly(QString())
@@ -18,6 +18,14 @@ void PointCloud::handleWindowChanged(QQuickWindow *win)
         win->setClearBeforeRendering(false);
     }
 }
+
+void PointCloud::nextCam() {
+    if (renderer)
+         renderer->nextCam();
+    if (window())
+        window()->update();
+}
+
 void PointCloud::setpathPly(QString path) {
     if (path == pathPly) {
         return;

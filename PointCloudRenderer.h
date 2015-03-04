@@ -22,12 +22,13 @@ public:
     ~PointCloudRenderer();
     void setViewportSize(const QSize &size) { viewportSize = size; }
     void setpathPly(QString path);
+    void nextCam();
 public slots:
     void paint();
 private:
     bool initBuffers();
     bool readPLY(const std::string& filePath, GLfloat*& buffer, GLfloat*& colorbuffer);
-    void readCameraCoordinates();
+    void readCoordinates();
 private:
     bool isinitBuffers;
     QString pathPly;
@@ -41,4 +42,5 @@ private:
     glm::vec3* cameraCoordinates;
     int currentCam;
     int numberCameras;
+    glm::vec3 center;
 };

@@ -1,3 +1,2 @@
 module PointCloudPlugin
-PointCloudWrapper 1.0 PointCloudWrapper.qml
 plugin pcplugin

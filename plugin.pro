@@ -1,6 +1,6 @@
 TEMPLATE = lib
 CONFIG += plugin
-QT += qml
+QT += quick qml
 
 DESTDIR = plugin/PointCloudPlugin/
 TARGET = pcplugin

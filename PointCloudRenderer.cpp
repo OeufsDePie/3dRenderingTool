@@ -34,8 +34,14 @@ PointCloudRenderer::PointCloudRenderer() : isinitBuffers(false),currentCam(-1) {
     glEnable(GL_DEPTH_TEST);
 }
 
+void PointCloudRenderer::nextCam(){
+    if (currentCam!=-1) //currentCam has be initialized
+        currentCam = (currentCam+1)%numberCameras;
+}
 void PointCloudRenderer::setpathPly(QString path) {
 //pathPly must contain a valid ply file path
+//setpathPly is called at each synchronization, so we have to check if pathPly actually changed
+// path could still be empty (QString()), in that case, we do nothing
     if (path==pathPly) {
         return;
     }
@@ -45,7 +51,7 @@ void PointCloudRenderer::setpathPly(QString path) {
     pathPly = path;
     std::string plyfile = pathPly.toStdString();
     readPLY(plyfile,vertex,colors);
-    readCameraCoordinates();
+    readCoordinates();
     // Set the current camera to the first camera 0
     currentCam=0;
     if (initBuffers()){
@@ -54,12 +60,13 @@ void PointCloudRenderer::setpathPly(QString path) {
     }
 }
 
-void PointCloudRenderer::readCameraCoordinates() {
+// Extract coordinates of cameras and calculate pointcloud center
+void PointCloudRenderer::readCoordinates() {
     // Read the camera from the vertex buffer. vertex buffer must be initialized ...
     // We calculate the number of cameras
-    int i=_dataSize;
+    int i=_dataSize-1;
     numberCameras=0;
-    while (colors[i]==0 && colors[i-1]==255 && colors[i-2]==0){
+    while (colors[i]==0 && colors[i-1]==1 && colors[i-2]==0){
         i=i-3;
         numberCameras++;
     }
@@ -69,6 +76,21 @@ void PointCloudRenderer::readCameraCoordinates() {
         cameraCoordinates[i] = glm::vec3((float)vertex[_dataSize-j-2],(float)vertex[_dataSize-j-1],(float)vertex[_dataSize-j]);
         j=j+3;
     }
+    // Calculate the centre of the point cloud without cameras. We will be looking at this center
+    // this might not be a good idea if the point cloud is not distributed homogeneously, but sometimes you
+    // gotta roll the hard six ...
+    float centerX=0;
+    float centerY=0;
+    float centerZ=0;
+    for (int i=0;i<((int)_dataSize)-numberCameras-1;i=i+3){
+        centerX = centerX + vertex[i];
+        centerY = centerY + vertex[i+1];
+        centerZ = centerZ + vertex[i+2];
+    }
+    centerX = centerX/(_dataSize/3);
+    centerY = centerY/(_dataSize/3);
+    centerZ = centerZ/(_dataSize/3);
+    center = glm::vec3(centerX,centerY,centerZ);
 }
 bool PointCloudRenderer::initBuffers() {
     // Create VAO
@@ -125,11 +147,11 @@ void PointCloudRenderer::paint()
         // Model matrix : an identity matrix (model will be at the origin)
         glm::mat4 model      = glm::mat4(1.0f);
         // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-        glm::mat4 proj = glm::perspective(10.0f, 4.0f/3.0f, 0.1f, 100.0f);
+        glm::mat4 proj = glm::perspective(30.0f, 4.0f/3.0f, 0.1f, 100.0f);
         // Camera matrix
         glm::mat4 view       = glm::lookAt(
-            cameraCoordinates[currentCam], // Camera is at (4,3,3), in World Space
-            glm::vec3(0,0,0),
+            cameraCoordinates[currentCam], // Camera in World Space
+            center, // is looking at ...
             glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
         );
         // Set attributes
