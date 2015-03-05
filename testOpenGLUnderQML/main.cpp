@@ -1,6 +1,6 @@
 #include <QGuiApplication>
 #include <QtQuick/QQuickView>
-#include "../PointCloud.h"
+#include "../src/PointCloud.h"
 #include <iostream>
 
 int main(int argc, char **argv)
