@@ -62,11 +62,12 @@ class PointCloudPlugin : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri)
     {
-        Q_ASSERT(uri == QLatin1String("PointCloudPlugin"));
+        Q_ASSERT(uri == QLatin1String("PointCloud"));
         qmlRegisterType<PointCloud>(uri, 1, 0, "PointCloud");
     }
 };
 
 
+//No idea what this line does, but without it, nothing works.
 #include "PointCloud.moc"
 

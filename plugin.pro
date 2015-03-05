@@ -2,7 +2,7 @@ TEMPLATE = lib
 CONFIG += plugin
 QT += quick qml
 
-DESTDIR = plugin/PointCloudPlugin/
+DESTDIR = PointCloud/
 TARGET = pcplugin
-SOURCES += PointCloud.cpp PointCloudRenderer.cpp Ply.cpp
-HEADERS += PointCloud.h PointCloudRenderer.h Ply.h
+SOURCES += src/PointCloud.cpp src/PointCloudRenderer.cpp src/Ply.cpp
+HEADERS += src/PointCloud.h src/PointCloudRenderer.h src/Ply.h

@@ -50,7 +50,8 @@ void PointCloudRenderer::setpathPly(QString path) {
     }
     pathPly = path;
     std::string plyfile = pathPly.toStdString();
-    readPLY(plyfile,vertex,colors);
+    if (!readPLY(plyfile,vertex,colors))
+        return;
     readCoordinates();
     // Set the current camera to the first camera 0
     currentCam=0;
