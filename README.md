@@ -1,6 +1,10 @@
 # 3dRenderingTool
 Standalone tool for 3d point-cloud-rendering and model visualization
 
+#GLM Dependency
+Before launching qmake, take a look at this.
+sudo apt-get install libglm-dev
+
 # QML plugin 
 You can now import the C++ code inside any QML code as a plugin and create PointCloud object to print a point cloud (you have to specify the .ply path in the QML code)
 
